@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>🧮 Fun Table Generator</title>
+  <style>
+    body {
+      font-family: 'Comic Sans MS', 'Segoe UI', sans-serif;
+      background-color: #f8f9fa;
+      text-align: center;
+      margin: 0;
+      padding: 0;
+    }
+
+    h1 {
+      margin-top: 40px;
+      font-size: 2.8rem;
+      color: #0077b6;
+    }
+
+    .mascot {
+      font-size: 4rem;
+    }
+
+    p.description {
+      max-width: 600px;
+      margin: 0 auto 30px;
+      font-size: 1.1rem;
+      color: #03045e;
+    }
+
+    .generator-box {
+      background-color: #caf0f8;
+      padding: 30px;
+      border-radius: 20px;
+      box-shadow: 0 8px 20px rgba(0,0,0,0.1);
+      width: 90%;
+      max-width: 400px;
+      margin: auto;
+      border: 3px solid #00b4d8;
+    }
+
+    input[type="number"] {
+      width: 80%;
+      padding: 10px;
+      font-size: 1rem;
+      border: 2px solid #90e0ef;
+      border-radius: 8px;
+      margin-bottom: 15px;
+    }
+
+    button {
+      padding: 10px 20px;
+      font-size: 1rem;
+      background-color: #0077b6;
+      color: white;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      margin: 5px;
+    }
+
+    button:hover {
+      background-color: #023e8a;
+    }
+
+    .table {
+      margin-top: 20px;
+      font-size: 1.1rem;
+      color: #03045e;
+      line-height: 1.8;
+    }
+
+    .row {
+      background: #ade8f4;
+      margin: 6px 0;
+      padding: 10px;
+      border-radius: 10px;
+    }
+
+    .fun-zone {
+      margin-top: 50px;
+      padding: 20px;
+      background: #e0f7fa;
+      border-radius: 15px;
+      max-width: 600px;
+      margin-inline: auto;
+    }
+
+    .fun-zone h2 {
+      color: #0096c7;
+    }
+
+    .fun-zone p {
+      color: #023e8a;
+      font-size: 1rem;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="mascot">🧸</div>
+  <h1>Let's Learn Multiplication!</h1>
+  <p class="description">
+    Just enter a number and we'll show you the magic of multiplication.
+    You can even hear it read out loud! 🔊
+  </p>
+
+  <div class="generator-box">
+    <input type="number" id="numberInput" placeholder="Enter a number" />
+    <br />
+    <button onclick="generateTable()">🎯 Generate Table</button>
+    <button onclick="speakTable()">🔊 Read Aloud</button>
+
+    <div id="tableContainer" class="table"></div>
+  </div>
+
+  <div class="fun-zone">
+    <h2>🎉 Did You Know?</h2>
+    <p>Multiplication is just adding the same number many times!</p>
+    <p><strong>Math Joke:</strong> Why did 7 eat 9? Because you’re supposed to eat 3 squared meals a day! 😄</p>
+    <p><strong>Try This:</strong> What’s 12 x 12? It's 144 — the magic dozen dozen! ✨</p>
+  </div>
+
+  <script>
+    let lastTable = [];
+
+    function generateTable() {
+      const num = parseInt(document.getElementById("numberInput").value);
+      const container = document.getElementById("tableContainer");
+      container.innerHTML = "";
+      lastTable = [];
+
+      if (isNaN(num)) {
+        container.innerHTML = "<div class='row'>⚠️ Please enter a valid number.</div>";
+        return;
+      }
+
+      for (let i = 1; i <= 10; i++) {
+        const result = `${num} x ${i} = ${num * i}`;
+        const row = document.createElement("div");
+        row.className = "row";
+        row.textContent = result;
+        container.appendChild(row);
+        lastTable.push(result);
+      }
+    }
+
+    function speakTable() {
+      if (lastTable.length === 0) {
+        alert("Please generate the table first!");
+        return;
+      }
+
+      const utterance = new SpeechSynthesisUtterance(lastTable.join(". "));
+      utterance.rate = 1;
+      utterance.pitch = 1;
+      utterance.lang = "en-US";
+      speechSynthesis.speak(utterance);
+    }
+  </script>
+
+</body>
+</html>
